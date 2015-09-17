@@ -10,7 +10,7 @@ vbcvb# Huxley
 
 Huxley is a [CORS](http://enable-cors.org/) enabled JSON [REST](https://en.wikipedia.org/wiki/Representational_state_transfer) proxy for the UK National Rail Enquires Live Departure Board [SOAP](http://harmful.cat-v.org/software/xml/soap/simple) [API](http://www.nationalrail.co.uk/46391.aspx) (Darwin). 
 
-Huxley is being _actively_ developed. If you want to be informed of updates when they are released then watch the project on GitHub and/or **[follow me on Twitter](https://twitter.com/shutdownscanner)**.
+Huxley is being _actively_ developed. If you want to be informed of updates when they are released then watch the project on GitHub and/or **[follow me on Twitter](https://twitter.com/shutdownscanner)**. You can also read about this and other projects on [my blog](https://unop.uk/).
 
 ---
 
@@ -21,6 +21,10 @@ Huxley also has a built in CRS code lookup API so you can search for station nam
 In addition it has a function for calculating delays which allows you to build useful IoT devices like this [LED strip delay indicator](https://unop.uk/dev/train-disruption-indicator-with-a-blinky-tape-rgb-led-strip-and-raspberry-pi/). You can specify specific trains and it even knows about London Terminals.
 
 [![Train Disruption Indicator](https://unop.uk/wp-content/uploads/2015/05/trains.jpg "Train Disruption Indicator")](https://unop.uk/dev/train-disruption-indicator-with-a-blinky-tape-rgb-led-strip-and-raspberry-pi/)
+
+You can also use it to build mobile web apps such as [InstaBail](https://instabail.uk/), which generates excuses based on real transport disruptions.
+
+[![InstaBail](https://unop.uk/wp-content/uploads/2015/07/ios2.png "InstaBail")](https://instabail.uk/)
 
 ## Demo
 There is an example deployment set up [here](https://huxley.apphb.com/).
@@ -62,9 +66,13 @@ You can set `DarwinAccessToken` to your NRE access token. If you leave `ClientAc
 
 ### URL Format
 
-The URL format is `{board}/{CRS|StationName}/{filterType}/{filterCRS|StationName}/{numRows}` or `{board}/{CRS|StationName}/{numRows}` where only board and CRS (or a station name) are required. The filter type can be either `to` or `from` (case is not important).
+The URL format is `{board}/{CRS|StationName}/{filterType}/{filterCRS|StationName}/{numRows}` or `{board}/{CRS|StationName}/{numRows}` (arrivals/departures only) where only board and CRS (or a station name) are required. The filter type can be either `to` or `from` (case is not important).
 
 A station name can be used in place of CRS codes if the name matches only one station (or matches one exactly) but case is not important. See the [CRS section](#crs-station-codes) below for more information.
+
+For all boards you can add an `expand=true` parameter to embed all service details into the board response.
+
+[`/all/{CRS|StationName}?accessToken={token}&expand=true`](https://huxley.apphb.com/all/crs?accessToken=DA1C7740-9DA0-11E4-80E6-A920340000B1&expand=true)
 
 Examples:
 
@@ -77,15 +85,27 @@ Examples:
 
 ### Departures
 
-[`/departures/{Three letter CRS station code}?accessToken={Your GUID token}`](https://huxley.apphb.com/departures/crs?accessToken=)
+[`/departures/{CRS|StationName}/{filterType}/{filterCRS|StationName}`](https://huxley.apphb.com/departures/crs?accessToken=DA1C7740-9DA0-11E4-80E6-A920340000B1)
 
 ### Arrivals
 
-[`/arrivals/{Three letter CRS station code}?accessToken={Your GUID token}`](https://huxley.apphb.com/arrivals/crs?accessToken=)
+[`/arrivals/{CRS|StationName}/{filterType}/{filterCRS|StationName}`](https://huxley.apphb.com/arrivals/crs?accessToken=DA1C7740-9DA0-11E4-80E6-A920340000B1)
 
 ### Departures and Arrivals
 
-[`/all/{Three letter CRS station code}?accessToken={Your GUID token}`](https://huxley.apphb.com/all/crs?accessToken=)
+[`/all/{CRS|StationName}/{filterType}/{filterCRS|StationName}`](https://huxley.apphb.com/all/crs?accessToken=DA1C7740-9DA0-11E4-80E6-A920340000B1)
+
+### Next
+
+[`/next/{CRS|StationName}/{filterType}/{filterCRSs|StationNames}`](https://huxley.apphb.com/next/crs/to/edb?accessToken=DA1C7740-9DA0-11E4-80E6-A920340000B1)
+
+Filter stations can be a comma separated list. Filter type and number of rows are ignored.
+
+### Fastest
+
+[`/fastest/{CRS|StationName}/{filterType}/{filterCRSs|StationNames}`](https://huxley.apphb.com/fastest/crs/to/edb?accessToken=DA1C7740-9DA0-11E4-80E6-A920340000B1)
+
+Filter stations can be a comma separated list. Filter type and number of rows are ignored.
 
 ### Service
 
@@ -187,7 +207,7 @@ To get your own instance of Huxley (on [App Harbor](https://appharbor.com/) or [
 
 Made by [James Singleton](https://unop.uk)
 
-![powered by National Rail Enquiries](src/Huxley/NRE_Powered_logo.png "powered by National Rail Enquiries")
+[![powered by National Rail Enquiries](https://huxley.unop.uk/NRE_Powered_logo.png)](http://www.nationalrail.co.uk/100296.aspx)
 
 ---
 
